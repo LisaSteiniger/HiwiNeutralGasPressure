@@ -196,6 +196,12 @@ pADB_av_AEP58 = {'p': "ArchiveDB/codac/W7X/ControlStation.2068/PLC.1_DATASTREAM/
 
 pADB_av_AEP59 = {'p': "ArchiveDB/codac/W7X/ControlStation.2068/PLC.1_DATASTREAM/916/ADB59_CP202/scaled"} 
 
+p_CP302 = {'p_ADB18': "ArchiveDB/codac/W7X/ControlStation.2068/PLC.1_DATASTREAM/941/ADB18_CP302/scaled",
+           'p_ADB29': "ArchiveDB/codac/W7X/ControlStation.2068/PLC.1_DATASTREAM/943/ADB29_CP302/scaled",
+           'p_ADB38': "ArchiveDB/codac/W7X/ControlStation.2068/PLC.1_DATASTREAM/945/ADB38_CP302/scaled",
+           'p_ADB49': "ArchiveDB/codac/W7X/ControlStation.2068/PLC.1_DATASTREAM/947/ADB49_CP302/scaled",
+           'p_ADBav': "ArchiveDB/codac/W7X/ControlStation.2068/PLC.1_DATASTREAM/949/ADB_average_CP302/scaled"}
+
 
 pADB_av_hpa = {'p': "ArchiveDB/codac/W7X/ControlStation.2068/PLC.1_DATASTREAM/918/ADB_average_hpa/scaled"}
 
@@ -216,29 +222,36 @@ pADB_18_KA401 = {'p': "ArchiveDB/codac/W7X/ControlStation.2068/PLC.1_DATASTREAM/
 pBaratron = {'p': "ArchiveDB/raw/W7X/QRR_Residual_Gas_Analyzer/PVTotalPressureBaratron_DATASTREAM/V1/1/BaratronPressure",
              'p_raw': "ArchiveDB/raw/W7X/QRR_Residual_Gas_Analyzer/PVTotalPressureBaratron_DATASTREAM/V1/0/BaratronPressureRaw"}
 
+url_gasValves = {'BG013H_V': "ArchiveDB/raw/W7X/ControlStation.2224/PiezoValveData_DATASTREAM/8/Actual Value Pressure Sensor Valve BG013",# "ArchiveDB/raw/W7X/ControlStation.2059/PiezoValveData_DATASTREAM/8/Actual Value Pressure Sensor Valve BG013",
+                 'BG013H_flow': "ArchiveDB/raw/W7X/ControlStation.2224/PiezoValveData_DATASTREAM/15/Actual Value Flow Valve BG013",
+                 'BG013H_p': "ArchiveDB/raw/W7X/ControlStation.2059/PLC.1_DATASTREAM/233/BG013CP01_IST",
+                 'BG034He_V': "ArchiveDB/raw/W7X/ControlStation.2224/PiezoValveData_DATASTREAM/4/Actual Value Pressure Sensor Valve BG034",# "ArchiveDB/raw/W7X/ControlStation.2059/PiezoValveData_DATASTREAM/4/Actual Value Pressure Sensor Valve BG034",
+                 'BG034He_flow': "ArchiveDB/raw/W7X/ControlStation.2224/PiezoValveData_DATASTREAM/19/Actual Value Flow Valve BG034",
+                 'BG034He_p': "ArchiveDB/raw/W7X/ControlStation.2059/PLC.1_DATASTREAM/254/BG034CP01_IST"}
+
 
 #date of calibration days from 12:00:00AM to 11:59:59PM
 #w7xarchive.to_timestamp('YYYY-MM-DD:HH:MM:SS') to get nanosecond timestamp
-calibration_dates = [['2025-06-05 11:22:42', '2025-06-05 11:26:29'],
-                     #['2025-06-05 00:00:00', '2025-06-05 23:59:59'],
-                     ['2025-06-04 07:17:00', '2025-06-04 07:19:59'],
-                     #['2025-06-04 00:00:00', '2025-06-04 23:59:59'],
-                     ['2024-09-10 07:55:00', '2024-09-10 07:56:59'],#one spike
-                     ['2024-09-10 11:59:00', '2024-09-10 12:01:29'],
-                     ['2024-09-10 12:07:00', '2024-09-10 12:10:39'],
-                     #['2024-09-10 00:00:00', '2024-09-10 23:59:59'],
-                     ['2024-07-12 07:28:30', '2024-07-12 07:54:59'],
-                     ['2024-07-12 08:02:00', '2024-07-12 08:28:09'],
-
-                     ['2024-07-12 08:53:00', '2024-07-12 08:56:59'],
-                     ['2024-07-12 08:57:00', '2024-07-12 09:01:59'],#only spikes
-                     ['2024-07-12 09:04:00', '2024-07-12 09:07:59'],
-                     ['2024-07-12 09:10:00', '2024-07-12 09:12:59'],
+calibration_dates = [#['2025-06-05 11:22:42', '2025-06-05 11:26:29'],
+                     ['2025-06-05 00:00:00', '2025-06-05 23:59:59'],
+                     #['2025-06-04 07:17:00', '2025-06-04 07:19:59'],
+                     ['2025-06-04 00:00:00', '2025-06-04 23:59:59'],
+                     #['2024-09-10 07:55:00', '2024-09-10 07:56:59'],#one spike
+                     #['2024-09-10 11:59:00', '2024-09-10 12:01:29'],
+                     #['2024-09-10 12:07:00', '2024-09-10 12:10:39'],
+                     ['2024-09-10 00:00:00', '2024-09-10 23:59:59'],
+                     #['2024-07-12 07:28:30', '2024-07-12 07:54:59'],
+                     #['2024-07-12 08:02:00', '2024-07-12 08:28:09'],
+                    
+                     #['2024-07-12 08:53:00', '2024-07-12 08:56:59'],
+                     #['2024-07-12 08:57:00', '2024-07-12 09:01:59'],#only spikes
+                     #['2024-07-12 09:04:00', '2024-07-12 09:07:59'],
+                     #['2024-07-12 09:10:00', '2024-07-12 09:12:59'],
                      
-                     ['2024-07-12 09:15:00', '2024-07-12 09:35:00'],#blurry
-                     ['2024-07-12 09:35:00', '2024-07-12 10:05:59'],
-                     ['2024-07-12 11:17:00', '2024-07-12 12:02:59'],
-                     ['2024-07-12 12:03:00', '2024-07-12 12:24:59'],
+                     #['2024-07-12 09:15:00', '2024-07-12 09:35:00'],#blurry
+                     #['2024-07-12 09:35:00', '2024-07-12 10:05:59'],
+                     #['2024-07-12 11:17:00', '2024-07-12 12:02:59'],
+                     #['2024-07-12 12:03:00', '2024-07-12 12:24:59'],
                      #['2024-07-12 00:00:00', '2024-07-12 23:59:59']
                      ]
 
@@ -256,19 +269,19 @@ calibration_datesOP21_1 = [['2023-04-04 00:00:00', '2023-04-04 23:59:59'],
 
 calibrations = [
                 # OP2.2 first attempt, not ideal (slight pumping), do not use
-                {"#": 0, "B": 2.5, "gas": "He", "program": "20240910.29", 'inactive': ["AEH21"], },
-                {"#": 1, "B": 2.5, "gas": "H2", "program": "20240910.30", 'inactive': ["AEH21"], },
+                {"#": 0, "B": 2.5, "gas": "He", "program": "20240910.29", 'y': 35, 'inactive': ["AEH21"], },
+                {"#": 1, "B": 2.5, "gas": "H2", "program": "20240910.30", 'y': 35, 'inactive': ["AEH21"], },
                 # OP2.2 calibrations
-                {"#": 2, "B": 2.5, "gas": "H2", "program": "20240926.21", 'inactive': ["AEH21", "AEH31"], 'config': {'AEI51': {'ignore_steps': []}}},
-                {"#": 3, "B": 2.5, "gas": "He", "program": "20240926.22", 'inactive': ["AEH21", "AEH31"], },
-                {"#": 4, "B": 2.5, "gas": "H2+He", "program": "20240926.23", 'inactive': ["AEH21", "AEH31"], },
+                {"#": 2, "B": 2.5, "gas": "He", "program": "20240926.21", 'y': 0, 'inactive': ["AEH21", "AEH31"], 'config': {'AEI51': {'ignore_steps': []}}},
+                {"#": 3, "B": 2.5, "gas": "H2", "program": "20240926.22", 'y': 0, 'inactive': ["AEH21", "AEH31"], },
+                {"#": 4, "B": 2.5, "gas": "H2+He", "program": "20240926.23", 'y': 35, 'inactive': ["AEH21", "AEH31"], },
                 # OP2.3 calibrations
                 # low field calibration
-                {"#": 5, "B": 1.8, "gas": "H2", "program": "20250218.40", 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51"], 'skip_steps': {'AEP51': [], 'AEP50': [17]}, "pref_correction_factor": 4.196051423324151},
+                {"#": 5, "B": 1.8, "gas": "H2", "program": "20250218.40", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEH31"], 'skip_steps': {'AEP51': [], 'AEP50': [17]}, "pref_correction_factor": 4.196051423324151},
                 # normal calibrations (reversed field)
-                {"#": 2, "B": 2.5, "gas": "H2", "program": "20250220.25", 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51"], 'skip_steps': {'AEP51': [], 'AEP50': [17]}, "pref_correction_factor": 4.1822773186409545},
-                {"#": 3, "B": 2.5, "gas": "He", "program": "20250220.24", 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51"], 'skip_steps': {}, "pref_correction_factor": 4.313131313131313},
+                {"#": 2, "B": 2.5, "gas": "H2", "program": "20250220.25", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEH31"], 'skip_steps': {'AEP51': [], 'AEP50': [17]}, "pref_correction_factor": 4.1822773186409545},
+                {"#": 3, "B": 2.5, "gas": "He", "program": "20250220.24", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEH31"], 'skip_steps': {}, "pref_correction_factor": 4.313131313131313},
                 # normal calibration (forward field)
-                {"#": 4, "B": 2.5, "gas": "H2", "program": "20250604.1", 'inactive': [], 'skip_steps': []},
-                {"#": 5, "B": 2.5, "gas": "H2", "program": "20250605.43", 'inactive': [], 'skip_steps': []}
+                {"#": 4, "B": 2.5, "gas": "H2", "program": "20250604.1", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEP50", "AEH31", "AEH30"], 'skip_steps': []},
+                {"#": 5, "B": 2.5, "gas": "H2", "program": "20250605.43", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEP50", "AEH31", "AEH30"], 'skip_steps': []}
                 ]
