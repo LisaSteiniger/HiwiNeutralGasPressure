@@ -13,126 +13,144 @@ urlAEA21 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2071/FPGA.1_DATASTREAM/1/I
             'HC': "ArchiveDB/codac/W7X/ControlStation.2071/ADC.1_DATASTREAM/0/Output Current A/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2071/ADC.1_DATASTREAM/1/Output Voltage A/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEA21_DATASTREAM/V1/0/pressure-AEA21"}
 
 urlAEE11 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2097/FPGA.1_DATASTREAM/1/IonCurrent-A/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2097/FPGA.1_DATASTREAM/0/ElectronCurrent-A/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2097/ADC.1_DATASTREAM/0/Output Current A/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2097/ADC.1_DATASTREAM/1/Output Voltage A/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEE11_DATASTREAM/V1/0/pressure-AEE11"}
 
 urlAEE30 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2071/FPGA.1_DATASTREAM/3/IonCurrent-B/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2071/FPGA.1_DATASTREAM/2/ElectronCurrent-B/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2071/ADC.1_DATASTREAM/2/Output Current B/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2071/ADC.1_DATASTREAM/3/Output Voltage B/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEE30_DATASTREAM/V1/0/pressure-AEE30"}
 
 urlAEE41 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2098/FPGA.1_DATASTREAM/1/IonCurrent-A/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2098/FPGA.1_DATASTREAM/0/ElectronCurrent-A/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2098/ADC.1_DATASTREAM/0/Output Current A/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2098/ADC.1_DATASTREAM/1/Output Voltage A/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEE41_DATASTREAM/V1/0/pressure-AEE41"}
 
 urlAEE50 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2099/FPGA.1_DATASTREAM/1/IonCurrent-A/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2099/FPGA.1_DATASTREAM/0/ElectronCurrent-A/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2099/ADC.1_DATASTREAM/0/Output Current A/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2099/ADC.1_DATASTREAM/1/Output Voltage A/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEE50_DATASTREAM/V1/0/pressure-AEE50"}
 
 urlAEH11 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2100/FPGA.1_DATASTREAM/1/IonCurrent-A/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2100/FPGA.1_DATASTREAM/0/ElectronCurrent-A/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2100/ADC.1_DATASTREAM/0/Output Current A/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2100/ADC.1_DATASTREAM/1/Output Voltage A/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEH11_DATASTREAM/V1/0/pressure-AEH11"}
 
 urlAEH21 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2100/FPGA.1_DATASTREAM/3/IonCurrent-B/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2100/FPGA.1_DATASTREAM/2/ElectronCurrent-B/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2100/ADC.1_DATASTREAM/2/Output Current B/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2100/ADC.1_DATASTREAM/3/Output Voltage B/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEH21_DATASTREAM/V1/0/pressure-AEH21"}
 
 urlAEH30 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2071/FPGA.1_DATASTREAM/5/IonCurrent-C/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2071/FPGA.1_DATASTREAM/4/ElectronCurrent-C/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2071/ADC.1_DATASTREAM/4/Output Current C/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2071/ADC.1_DATASTREAM/5/Output Voltage C/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEH30_DATASTREAM/V1/0/pressure-AEH30"}
 
 urlAEH31 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2100/FPGA.1_DATASTREAM/5/IonCurrent-C/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2100/FPGA.1_DATASTREAM/4/ElectronCurrent-C/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2100/ADC.1_DATASTREAM/4/Output Current C/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2100/ADC.1_DATASTREAM/5/Output Voltage C/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEH31_DATASTREAM/V1/0/pressure-AEH31"}
 
 urlAEH50 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2099/FPGA.1_DATASTREAM/3/IonCurrent-B/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2099/FPGA.1_DATASTREAM/2/ElectronCurrent-B/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2099/ADC.1_DATASTREAM/2/Output Current B/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2099/ADC.1_DATASTREAM/3/Output Voltage B/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEH50_DATASTREAM/V1/0/pressure-AEH50"}
 
 urlAEH51 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2101/FPGA.1_DATASTREAM/1/IonCurrent-A/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2101/FPGA.1_DATASTREAM/0/ElectronCurrent-A/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2101/ADC.1_DATASTREAM/0/Output Current A/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2101/ADC.1_DATASTREAM/1/Output Voltage A/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEH51_DATASTREAM/V1/0/pressure-AEH51"}
 
 urlAEI30 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2101/FPGA.1_DATASTREAM/3/IonCurrent-B/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2101/FPGA.1_DATASTREAM/2/ElectronCurrent-B/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2101/ADC.1_DATASTREAM/2/Output Current B/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2101/ADC.1_DATASTREAM/3/Output Voltage B/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEI30_DATASTREAM/V1/0/pressure-AEI30"}
 
 urlAEI50 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2101/FPGA.1_DATASTREAM/5/IonCurrent-C/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2101/FPGA.1_DATASTREAM/4/ElectronCurrent-C/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2101/ADC.1_DATASTREAM/4/Output Current C/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2101/ADC.1_DATASTREAM/5/Output Voltage C/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEI50_DATASTREAM/V1/0/pressure-AEI50"}
 
 urlAEI51 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2101/FPGA.1_DATASTREAM/7/IonCurrent-D/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2101/FPGA.1_DATASTREAM/6/ElectronCurrent-D/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2101/ADC.1_DATASTREAM/6/Output Current D/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2101/ADC.1_DATASTREAM/7/Output Voltage D/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEI51_DATASTREAM/V1/0/pressure-AEI51"}
 
 urlAEL10 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2100/FPGA.1_DATASTREAM/7/IonCurrent-D/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2100/FPGA.1_DATASTREAM/6/ElectronCurrent-D/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2100/ADC.1_DATASTREAM/6/Output Current D/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2100/ADC.1_DATASTREAM/7/Output Voltage D/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEL10_DATASTREAM/V1/0/pressure-AEL10"}
 
 urlAEP30 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2071/FPGA.1_DATASTREAM/7/IonCurrent-D/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2071/FPGA.1_DATASTREAM/6/ElectronCurrent-D/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2071/ADC.1_DATASTREAM/6/Output Current D/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2071/ADC.1_DATASTREAM/7/Output Voltage D/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEP30_DATASTREAM/V1/0/pressure-AEP30"}
 
 urlAEP50 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2099/FPGA.1_DATASTREAM/7/IonCurrent-D/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2099/FPGA.1_DATASTREAM/6/ElectronCurrent-D/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2099/ADC.1_DATASTREAM/6/Output Current D/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2099/ADC.1_DATASTREAM/7/Output Voltage D/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEP50_DATASTREAM/V1/0/pressure-AEP50"}
 
 urlAEP51 = {'IC': "ArchiveDB/codac/W7X/ControlStation.2099/FPGA.1_DATASTREAM/5/IonCurrent-C/scaled",
             'EC': "ArchiveDB/codac/W7X/ControlStation.2099/FPGA.1_DATASTREAM/4/ElectronCurrent-C/scaled",
             'HC': "ArchiveDB/codac/W7X/ControlStation.2099/ADC.1_DATASTREAM/4/Output Current C/scaled",
             'HV': "ArchiveDB/codac/W7X/ControlStation.2099/ADC.1_DATASTREAM/5/Output Voltage C/scaled",
             'ECRH': "Test/raw/W7X/CBG_ECRH/TotalPower_DATASTREAM/V1/0/Ptot_ECRH",
-            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density"}
+            'ne' : "ArchiveDB/views/KKS/QMJ_Interferometer/Processed/Density",
+            'pNGM': "ArchiveDB/raw/W7XAnalysis/QRG_Manometer/AEP51_DATASTREAM/V1/0/pressure-AEP51"}
 
 #pressure gauges archive links
 pADB_av_AEH18 = {'p': "ArchiveDB/codac/W7X/ControlStation.2068/PLC.1_DATASTREAM/899/ADB18_CP402/scaled", #this is where I think I must go to
@@ -279,9 +297,9 @@ calibrations = [
                 # low field calibration
                 {"#": 5, "B": 1.8, "gas": "H2", "program": "20250218.40", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEH31"], 'skip_steps': {'AEP51': [], 'AEP50': [17]}, "pref_correction_factor": 4.196051423324151},
                 # normal calibrations (reversed field)
-                {"#": 2, "B": 2.5, "gas": "H2", "program": "20250220.25", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEH31"], 'skip_steps': {'AEP51': [], 'AEP50': [17]}, "pref_correction_factor": 4.1822773186409545},
-                {"#": 3, "B": 2.5, "gas": "He", "program": "20250220.24", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEH31"], 'skip_steps': {}, "pref_correction_factor": 4.313131313131313},
+                {"#": 6, "B": 2.5, "gas": "H2", "program": "20250220.25", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEH31"], 'skip_steps': {'AEP51': [], 'AEP50': [17]}, "pref_correction_factor": 4.1822773186409545},
+                {"#": 7, "B": 2.5, "gas": "He", "program": "20250220.24", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEH31"], 'skip_steps': {}, "pref_correction_factor": 4.313131313131313},
                 # normal calibration (forward field)
-                {"#": 4, "B": 2.5, "gas": "H2", "program": "20250604.1", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEP50", "AEH31", "AEH30"], 'skip_steps': []},
-                {"#": 5, "B": 2.5, "gas": "H2", "program": "20250605.43", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEP50", "AEH31", "AEH30"], 'skip_steps': []}
+                {"#": 8, "B": 2.5, "gas": "H2", "program": "20250604.1", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEP50", "AEH31", "AEH30"], 'skip_steps': []},
+                {"#": 9, "B": 2.5, "gas": "H2", "program": "20250605.43", 'y': 35, 'inactive': ["AEH21", "AEH11", "AEE50", "AEI51", "AEP50", "AEH31", "AEH30"], 'skip_steps': []}
                 ]

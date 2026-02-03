@@ -1,5 +1,6 @@
 import w7xarchive
 import itertools
+import requests
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -483,16 +484,25 @@ def plotPressureStepsOfCalibrationProgram(calibrationIDs=[0, 1, 2, 3, 4, 5, 6, 7
         plt.close()
 
 
-def investigateSensitivityOfManometer(manometers, urls):
+def investigateSensitivityOfManometer(manometers, urls, calibrations, calibrated_manometer=np.nan):
     ''' plots electron and ion current, sensitivity, and pressure for each manometer in manometers for each category of calibration program
         e.g. all H programs with 2.5T are plotted together for each manometer'''
-    for manometer, url in zip(manometers, urls):
-        fig_H18, ax_H18 = plt.subplots(4, 1, layout='constrained', figsize=(10, 15))
-        fig_H25, ax_H25 = plt.subplots(4, 1, layout='constrained', figsize=(10, 15))
-        fig_He25, ax_He25 = plt.subplots(4, 1, layout='constrained', figsize=(10, 15))
-        fig_25, ax_25 = plt.subplots(4, 1, layout='constrained', figsize=(10, 15))
+    if type(calibrated_manometer) is not list:
+        calibrated_manometer = [[[False] * 2] * len(calibrations)] * len(manometers)
+
+    for manometer, url, calibrated in zip(manometers, urls, calibrated_manometer):
+        if sum(itertools.chain.from_iterable(calibrated)) == 0:
+            plot_no = 4
+        else:
+            plot_no = 5
+
+        #fig_H18, ax_H18 = plt.subplots(4, 1, layout='constrained', figsize=(10, 15))
+        fig_H25, ax_H25 = plt.subplots(plot_no, 1, layout='constrained', figsize=(10, 15))
+        #fig_He25, ax_He25 = plt.subplots(4, 1, layout='constrained', figsize=(10, 15))
+        #fig_25, ax_25 = plt.subplots(4, 1, layout='constrained', figsize=(10, 15))
         url['p'] = pBaratron['p']
-        for calibration in calibrations:
+        
+        for calibration, calibrated_program in zip(calibrations, calibrated):
             calibration['EC'], calibration['HC'] = readECav_HCav(calibration['program'], url)
             #data is dictionary with same keys as url, each data[key] is a tuple of two lists containing timestemps (index 0) and data (index 1)
             data = w7xarchive.get_signal_for_program(url, calibration['program']) 
@@ -523,15 +533,16 @@ def investigateSensitivityOfManometer(manometers, urls):
 
                 if calibration['gas'] == 'H2':
                     if calibration['B'] == 1.8 or calibration['program'] == '20240910.30' or calibration['program'] == '20240926.22':
-                        ax_H18[0].semilogy(time_axis, sensitivity, label=calibration['program'] + ', CVP (K): ' + calibration['CVP'] + ', B (T): ' + str(calibration['B']))
-                        ax_H18[1].semilogy(time_axis, IC * 1e6, label='IC ' + calibration['program'] + ', CVP (K): ' + calibration['CVP'] + ', B (T): ' + str(calibration['B']))
-                        ax_H18[1].axhline(y=8.7499, color='grey', linestyle=':')
-                        ax_H18[2].plot(time_axis, EC * 1e6, label='EC ' + calibration['program'] + ', CVP (K): ' + calibration['CVP'] + ', B (T): ' + str(calibration['B']))
-                        ax_H18[3].semilogy(np.array(data['p'][0][x:]) + y, np.array(data['p'][1][x:]), label='p ' + calibration['program'] + ', CVP (K): ' + calibration['CVP'] + ', B (T): ' + str(calibration['B']))
+                        #ax_H18[0].semilogy(time_axis, sensitivity, label=calibration['program'] + ', CVP (K): ' + calibration['CVP'] + ', B (T): ' + str(calibration['B']))
+                        #ax_H18[1].semilogy(time_axis, IC * 1e6, label='IC ' + calibration['program'] + ', CVP (K): ' + calibration['CVP'] + ', B (T): ' + str(calibration['B']))
+                        #ax_H18[1].axhline(y=8.7499, color='grey', linestyle=':')
+                        #ax_H18[2].plot(time_axis, EC * 1e6, label='EC ' + calibration['program'] + ', CVP (K): ' + calibration['CVP'] + ', B (T): ' + str(calibration['B']))
+                        #ax_H18[3].semilogy(np.array(data['p'][0][x:]) + y, np.array(data['p'][1][x:]), label='p ' + calibration['program'] + ', CVP (K): ' + calibration['CVP'] + ', B (T): ' + str(calibration['B']))
                         #ax_H18[3].plot(np.array(data['hpa'][0][x:]) + y, np.array(data['hpa'][1][x:]), label='hpa ' + calibration['program'])
                         #ax_H18[3].plot(np.array(data['lpa'][0][x:]) + y, np.array(data['lpa'][1][x:]), label='lpa ' + calibration['program'])
-                    
-                    elif calibration['B'] == 2.5:
+                        pass
+                    if calibration['B'] == 2.5:
+                        print(calibration['program'])
                         ax_H25[0].semilogy(time_axis, sensitivity, label=calibration['program'] + ', CVP (K): ' + calibration['CVP'])
                         ax_H25[1].semilogy(time_axis, IC * 1e6, label=calibration['program'] + ', CVP (K): ' + calibration['CVP'])
                         ax_H25[1].axhline(y=8.7499, color='grey', linestyle=':')
@@ -539,7 +550,10 @@ def investigateSensitivityOfManometer(manometers, urls):
                         ax_H25[3].semilogy(np.array(data['p'][0][x:]) + y, np.array(data['p'][1][x:]), label=calibration['program'] + ', CVP (K): ' + calibration['CVP'])
                         #ax_H25[3].plot(np.array(data['hpa'][0][x:]) + y, np.array(data['hpa'][1][x:]), label='hpa ' + calibration['program'])
                         #ax_H25[3].plot(np.array(data['lpa'][0][x:]) + y, np.array(data['lpa'][1][x:]), label='lpa ' + calibration['program'])
-                
+                        if sum(calibrated_program) != 0:
+                            ax_H25[4].semilogy(np.array(data['p'][0][x:]) + y, np.array(data['p'][1][x:]), label=calibration['program'] + ' baratron, CVP (K): ' + calibration['CVP'])
+                            ax_H25[4].semilogy(time_axis, 10**(calibrated_program[0] * np.array(np.log10(IC)) + calibrated_program[1]), label=calibration['program'] + ' NGM, CVP (K): ' + calibration['CVP'])
+                '''
                 elif calibration['gas'] == 'He':
                     ax_He25[0].semilogy(time_axis, sensitivity, label=calibration['program'] + ', CVP (K): ' + calibration['CVP'])
                     ax_He25[1].semilogy(time_axis, IC * 1e6, label=calibration['program'] + ', CVP (K): ' + calibration['CVP'])
@@ -557,63 +571,72 @@ def investigateSensitivityOfManometer(manometers, urls):
                     ax_25[3].semilogy(np.array(data['p'][0][x:]) + y, np.array(data['p'][1][x:]), label=calibration['program'] + ', CVP (K): ' + calibration['CVP'])
                     #ax_25[3].plot(np.array(data['hpa'][0][x:]) + y, np.array(data['hpa'][1][x:]), label='hpa ' + calibration['program'])
                     #ax_25[3].plot(np.array(data['lpa'][0][x:]) + y, np.array(data['lpa'][1][x:]), label='lpa ' + calibration['program'])
-                   
+                '''   
         for i in range(4):
-            ax_H18[i].set_xlim([0, 275])
+            #ax_H18[i].set_xlim([0, 275])
             ax_H25[i].set_xlim([0, 275])
-            ax_He25[i].set_xlim([0, 275])
-            ax_25[i].set_xlim([0, 275])
-            ax_H18[i].set_xlabel('time in s')
+            #ax_He25[i].set_xlim([0, 275])
+            #ax_25[i].set_xlim([0, 275])
+            #ax_H18[i].set_xlabel('time in s')
             ax_H25[i].set_xlabel('time in s')
-            ax_He25[i].set_xlabel('time in s')
-            ax_25[i].set_xlabel('time in s')
-            ax_H18[i].legend()
+            #ax_He25[i].set_xlabel('time in s')
+            #ax_25[i].set_xlabel('time in s')
+            #ax_H18[i].legend()
             ax_H25[i].legend()
-            ax_He25[i].legend()
-            ax_25[i].legend()
-            ax_H18[i].xaxis.grid()
+            #ax_He25[i].legend()
+            #ax_25[i].legend()
+            #ax_H18[i].xaxis.grid()
             ax_H25[i].xaxis.grid()
-            ax_He25[i].xaxis.grid()
-            ax_25[i].xaxis.grid()
+            #ax_He25[i].xaxis.grid()
+            #ax_25[i].xaxis.grid()
 
-        ax_H18[0].set_ylim([0, 0.1])
+        #ax_H18[0].set_ylim([0, 0.1])
         ax_H25[0].set_ylim([0, 0.1])
-        ax_He25[0].set_ylim([0, 0.1])
-        ax_25[0].set_ylim([0, 0.1])
-
+        #ax_He25[0].set_ylim([0, 0.1])
+        #ax_25[0].set_ylim([0, 0.1])
+        '''
         ax_H18[0].set_ylabel('sensitivity x pressure (IC/(EC - IC))')
         ax_H18[1].set_ylabel('ion current IC in 1e-6 A')
         ax_H18[2].set_ylabel('electron current EC in 1e-6 A')
         ax_H18[3].set_ylabel('neutral gas pressure (baratron) p in mbar')
+        '''
         ax_H25[0].set_ylabel('sensitivity x pressure (IC/(EC - IC))')
         ax_H25[1].set_ylabel('ion current IC in 1e-6 A')
         ax_H25[2].set_ylabel('electron current EC in 1e-6 A')
         ax_H25[3].set_ylabel('neutral gas pressure (baratron) p in mbar')
+        '''
         ax_He25[0].set_ylabel('sensitivity x pressure (IC/(EC - IC))')
         ax_He25[1].set_ylabel('ion current IC in 1e-6 A')
         ax_He25[2].set_ylabel('electron current EC in 1e-6 A')
         ax_He25[3].set_ylabel('neutral gas pressure (baratron) p in mbar')
+        
         ax_25[0].set_ylabel('sensitivity x pressure (IC/(EC - IC))')
         ax_25[1].set_ylabel('ion current IC in 1e-6 A')
         ax_25[2].set_ylabel('electron current EC in 1e-6 A')
         ax_25[3].set_ylabel('neutral gas pressure (baratron) p in mbar')
-        
+        '''
+        if plot_no == 5:
+            ax_H25[4].set_ylabel('neutral gas pressure p in mbar')
+            ax_H25[4].set_xlim([0, 275])
+            ax_H25[4].set_xlabel('time in s')
+            ax_H25[4].legend()
+            ax_H25[4].xaxis.grid()
 
         safe = 'plots/Sensitivity/{manometer}_sensitivity_'.format(manometer=manometer)
-        fig_H18.savefig(safe + 'H.png', bbox_inches='tight')
+        #fig_H18.savefig(safe + 'H.png', bbox_inches='tight')
         fig_H25.savefig(safe + 'H_25T.png', bbox_inches='tight')
-        fig_He25.savefig(safe + 'He_25T.png', bbox_inches='tight')
-        fig_25.savefig(safe + 'H+He_25T.png', bbox_inches='tight')
+        #fig_He25.savefig(safe + 'He_25T.png', bbox_inches='tight')
+        #fig_25.savefig(safe + 'H+He_25T.png', bbox_inches='tight')
 
-        fig_H18.show()
+        #fig_H18.show()
         fig_H25.show()
-        fig_He25.show()
-        fig_25.show()
+        #fig_He25.show()
+        #fig_25.show()
 
         plt.close('all')
 
 
-def plotIonCurrentFromPressureCalibration(manometers, urls):
+def plotIonCurrentFromPressureCalibration(manometers, urls, calibrations):
     ''' for each manometer given in manometers the ion current is plotted in dependency of the pressure for each category of calibration program'''
     safe = 'plots/IC_from_p/IC_from_p_'
     for manometer, url in zip(manometers, urls):
@@ -647,9 +670,11 @@ def plotIonCurrentFromPressureCalibration(manometers, urls):
 
 ####################################################################################################################
 #MY OWN CALIBRATION ATTEMPT
-def calibrateManometer(manometers, urls, calibration, step_indices, nan_thresh=8.7499e-6):
+def calibrateManometer(manometers, urls, nan_threshs, calibration, step_indices):
     ''' calibrate each manometer given by manometers based on one calibration program given by dischargeID'''
-    for manometer, url in zip(manometers, urls):
+    m_list, b_list = [], []
+    datapoints = []
+    for manometer, url, nan_thresh in zip(manometers, urls, nan_threshs):
         url['p'] = pBaratron['p']
         data = w7xarchive.get_signal_for_program(url, calibration['program'])
         #merged = pd.merge(pd.DataFrame({'time': np.round(np.array(data['p'][0]), 3), 'p': data['p'][1]}), pd.DataFrame({'time': np.round(np.array(data['IC'][0]), 3), 'IC': data['IC'][1]}), 'outer', on='time')
@@ -669,15 +694,26 @@ def calibrateManometer(manometers, urls, calibration, step_indices, nan_thresh=8
         '''
         timeintervalStart = [data['p'][0][x] + 0.25 * (data['p'][0][y] - data['p'][0][x]) for x, y in zip(step_indices[:-1], step_indices[1:])]
         timeintervalStop = [data['p'][0][x] + 0.75 * (data['p'][0][y] - data['p'][0][x]) for x, y in zip(step_indices[:-1], step_indices[1:])]
+        timeintervalMid = [data['p'][0][x] + 0.5 * (data['p'][0][y] - data['p'][0][x]) for x, y in zip(step_indices[:-1], step_indices[1:])]
         timeintervalStart.append(data['p'][0][step_indices[-1]] + 0.25 * (data['p'][0][-1] - data['p'][0][step_indices[-1]]))
         timeintervalStop.append(data['p'][0][step_indices[-1]] + 0.75 * (data['p'][0][-1] - data['p'][0][step_indices[-1]]))
+        timeintervalMid.append(data['p'][0][step_indices[-1]] + 0.5 * (data['p'][0][-1] - data['p'][0][step_indices[-1]]))
         timeintervalStart = np.round(np.array(timeintervalStart), 3)
         timeintervalStop = np.round(np.array(timeintervalStop), 3)
+        timeintervalMid = np.round(np.array(timeintervalMid), 3)
+
+        minimumIntervalDuration = 1000
+        for timeinterval_start, timeinterval_stop, timestep_start, timestep_stop in zip(timeintervalStart, timeintervalStop, step_indices[:-1], step_indices[1:]):
+            t_diff = timeinterval_stop - timeinterval_start
+            if t_diff < minimumIntervalDuration:
+                minimumIntervalDuration = t_diff
+        minimumIntervalDuration = np.round(minimumIntervalDuration/2, 3)
 
         plt.plot(data['p'][0], data['p'][1], label='baratron')
         plt.plot(np.array(data['p'][0][:-1])[step_indices], np.array(data['p'][1][:-1])[step_indices], 'x', label='local slope maxima')
-        for lineStart, lineEnd in zip(timeintervalStart, timeintervalStop):
-            plt.axvspan(lineStart, lineEnd, color='grey')
+        for lineStart, lineEnd, lineMid in zip(timeintervalStart, timeintervalStop, timeintervalMid):
+            plt.axvspan(lineMid - minimumIntervalDuration, lineMid + minimumIntervalDuration, color='grey')
+            #plt.axvspan(lineStart, lineEnd, color='grey')
         
         plt.yscale('log')
         plt.xlabel('time in s')
@@ -687,22 +723,30 @@ def calibrateManometer(manometers, urls, calibration, step_indices, nan_thresh=8
         plt.savefig('plots/calibrationAttempt/{gas}_{B}_{program}.png'.format(program=calibration['program'], gas=calibration['gas'], B=calibration['B']))
         plt.close()
 
-        
         #read signal for p and IC and average their values in each interval
         step_IC, step_p = [], []
         n = 0
-        for lineStart, lineEnd in zip(timeintervalStart, timeintervalStop):
-            startIC = np.argmin(np.array(list(map(lambda x: abs(x - lineStart), data['IC'][0]))))
-            start_p = np.argmin(np.array(list(map(lambda x: abs(x - lineStart), data['p'][0]))))
-            stopIC = np.argmin(np.array(list(map(lambda x: abs(x - lineEnd), data['IC'][0]))))
-            stop_p = np.argmin(np.array(list(map(lambda x: abs(x - lineEnd), data['p'][0]))))
+        for lineStart, lineEnd, lineMid in zip(timeintervalStart, timeintervalStop, timeintervalMid):
+            #startIC = np.argmin(np.array(list(map(lambda x: abs(x - lineStart), data['IC'][0]))))
+            startIC = np.argmin(np.array(list(map(lambda x: abs(x - (lineMid - minimumIntervalDuration)), data['IC'][0]))))
+            #start_p = np.argmin(np.array(list(map(lambda x: abs(x - lineStart), data['p'][0]))))
+            start_p = np.argmin(np.array(list(map(lambda x: abs(x - (lineMid - minimumIntervalDuration)), data['p'][0]))))
+            #stopIC = np.argmin(np.array(list(map(lambda x: abs(x - lineEnd), data['IC'][0]))))
+            stopIC = np.argmin(np.array(list(map(lambda x: abs(x - (lineMid + minimumIntervalDuration)), data['IC'][0]))))
+            #stop_p = np.argmin(np.array(list(map(lambda x: abs(x - lineEnd), data['p'][0]))))
+            stop_p = np.argmin(np.array(list(map(lambda x: abs(x - (lineMid + minimumIntervalDuration)), data['p'][0]))))
             IC = overflow_correction(np.array(data['IC'][1]))
-            if nan_thresh:
-                overflow_indices = np.where(IC >= nan_thresh)[0]
-                IC[overflow_indices] = np.nan
-            step_IC.append(np.mean(IC[startIC:stopIC]))
-            step_p.append(np.mean(np.array(data['p'][1])[start_p:stop_p]))
+            if '2024' in calibration['program']:
+                i = 0
+            else:
+                i = 1
+            overflow_indices = np.where(IC >= nan_thresh[i])[0]
+            IC[overflow_indices] = np.nan
+            step_IC.append(np.nanmean(IC[startIC:stopIC]))
+            step_p.append(np.nanmean(np.array(data['p'][1])[start_p:stop_p]))
         plt.plot(step_IC, step_p, 'x', label='{manometer} {gas} {B}T'.format(manometer=manometer, gas=calibration['gas'], B=calibration['B']))
+
+        datapoints.append([step_IC, step_p, manometer, calibration])
 
         step_IC = list(map(lambda x: np.log10(x), step_IC))
         step_p = list(map(lambda x: np.log10(x), step_p))
@@ -713,6 +757,9 @@ def calibrateManometer(manometers, urls, calibration, step_indices, nan_thresh=8
 
         #find least square fit of a linear function through that log-log data
         paramsPolyfit = np.polyfit(step_IC, step_p, 1)
+        m_list.append(paramsPolyfit[0])
+        b_list.append(paramsPolyfit[1])
+        
         paramsCurvefit, rest = scipy.optimize.curve_fit(lambda x, m, b: m * x + b, step_IC, step_p)
 
         #define model (linear)        
@@ -745,13 +792,224 @@ def calibrateManometer(manometers, urls, calibration, step_indices, nan_thresh=8
         plt.yscale('log')
         plt.savefig('plots/calibrationAttempt/PressureFromIC_{manometer}_{gas}_{B}_{program}.png'.format(manometer=manometer, program=calibration['program'], gas=calibration['gas'], B=calibration['B']))
         plt.close()        
+    return m_list, b_list, datapoints
+    
+
+def compareManometerPressureWithBaratron(manometers, urls, dischargeIDs, calibrated, calibrations):
+    ''' read out the manometer data (ion/electron/heating current + heating voltage) and corresponding electron density and P_ECRH
+        works for reference discharges of OP2.2 and 2.3
+        averages the parameters for each of the three P_ECRH steps of the discharge (ne, P_ECRH, IC) or the whole discharge (EC, HC, HV)
+        results are saved in .csv file'''
+    urlTriggerBase = 'http://archive-webapi.ipp-hgw.mpg.de/programs.json?from='
+    overviewTable = pd.DataFrame({})
+    colors = ['blue', 'gold', 'green', 'crimson', 'cyan', 'fuchsia', 'k', 'tab:pink']
+
+    for manometer, url, mb_NGM in zip(manometers, urls, calibrated):
+        url['p'] = pBaratron['p']
+        for dischargeID in dischargeIDs:  
+            color_i = 0
+
+            urlTrigger = urlTriggerBase + dischargeID + '#'
+            resTrigger = requests.get(urlTrigger).json()
+        
+            t1, t4 = np.nan, np.nan
+            trigger = np.nan
+            if 'programs' in resTrigger.keys():
+                if type(resTrigger['programs']) == list:
+                    if 'trigger' in resTrigger['programs'][0].keys():
+                        if type(resTrigger['programs'][0]['trigger']) == dict:
+                            if '1' in resTrigger['programs'][0]['trigger'].keys() and '4' in resTrigger['programs'][0]['trigger'].keys():
+                                if type(resTrigger['programs'][0]['trigger']['4']) == list and type(resTrigger['programs'][0]['trigger']['1']) == list:
+                                    if len(resTrigger['programs'][0]['trigger']['4']) > 0 and len(resTrigger['programs'][0]['trigger']['1']) > 0:
+                                        trigger = ((resTrigger['programs'][0]['trigger']['4'][0] - resTrigger['programs'][0]['trigger']['1'][0])/1e9)
+                                        t4 = resTrigger['programs'][0]['trigger']['4'][0]
+                                        t1 = resTrigger['programs'][0]['trigger']['1'][0]
+                                    else:
+                                        print('Trigger "1" or "4" is an empty list')
+                                else:
+                                    print('Trigger "1" or "4" is not a list')
+                            else:
+                                print('Trigger "1" or "4" does not exist')
+                        else:
+                            print('Trigger is not a dictionary')
+                    else:
+                        print('No trigger in "programs"')
+                else:
+                    print('"programs" is no list')
+            else:
+                print('Key "programs" does not exist')
+
+            data = w7xarchive.get_signal(url, t1, t4) #_for_program(url, dischargeID) 
+            #data = w7xarchive.get_signal_for_program(url, dischargeID) 
+            t0, tx = w7xarchive.get_program_from_to(dischargeID)
+
+            #t1 = (t1 - t0)/10**9
+            #t4 = (t4 - t0)/10**9
+            
+            #test for existance of all datastreams
+            keys = data.keys()
+            if 'p' in keys and 'ne' in keys and 'IC' in keys:
+                pass
+            else:
+                print('not all datastreams available in {discharge} for {manometer}'.format(discharge=dischargeID, manometer=manometer))
+                print(keys)
+                continue
+            IC = overflow_correction(np.array(data['IC'][1]))
+            
+            data_ne = pd.DataFrame({'ne': data['ne'][1], 'time': np.round((np.array(data['ne'][0])-t1)/10**9, 3)})
+            data_p = pd.DataFrame({'p': data['p'][1], 'time': np.round((np.array(data['p'][0])-t1)/10**9, 3)})
+            data_IC = pd.DataFrame({'IC': IC, 'time': np.round((np.array(data['IC'][0])-t1)/10**9, 3)})
+            merged = pd.merge(data_ne, data_p, on='time', how='outer')
+            merged = pd.merge(merged, data_IC, on='time', how='outer')
+            if 'pNGM' in keys:
+                data_pNGM = pd.DataFrame({'pNGM': data['pNGM'][1], 'time': np.round((np.array(data['pNGM'][0])-t1)/10**9, 3)})
+                merged = pd.merge(merged, data_pNGM, on='time', how='outer')
+        
+                #cut to real experimental time by finding ECRH start and stop value and matching data indices
+                #print((min(data['EC'][0], key=lambda x: abs(x-data['ECRH'][0][0]))), (min(data['EC'][0], key=lambda x: abs(x-data['ECRH'][0][-1]))), data['ECRH'][0][0], data['ECRH'][0][-1])
+                indexStart_pNGM = 0# list(data['pNGM'][0]).index((min(data['pNGM'][0], key=lambda x: abs(x-t1))))
+                indexStop_pNGM = len(list(data['pNGM'][0]))  #list(data['pNGM'][0]).index((min(data['pNGM'][0], key=lambda x: abs(x-t4))))
+                #indexStop_pNGM = list(data['pNGM'][0]).index((min(data['pNGM'][0], key=lambda x: abs(x-t4))))
+
+            #cut to real experimental time by finding ECRH start and stop value and matching data indices
+            #print((min(data['EC'][0], key=lambda x: abs(x-data['ECRH'][0][0]))), (min(data['EC'][0], key=lambda x: abs(x-data['ECRH'][0][-1]))), data['ECRH'][0][0], data['ECRH'][0][-1])
+            indexStart_p = 0#list(data['p'][0]).index((min(data['p'][0], key=lambda x: abs(x-t1))))
+            indexStart_IC = 0#list(data['IC'][0]).index((min(data['IC'][0], key=lambda x: abs(x-t1))))
+            indexStart_ne = 0#list(merged['time']).index((min(merged['time'], key=lambda x: abs(x-t1))))
+            indexStop_p = len(list(data['p'][0]))  #list(data['p'][0]).index((min(data['p'][0], key=lambda x: abs(x-t4))))
+            #indexStop_p = list(data['p'][0]).index((min(data['p'][0], key=lambda x: abs(x-t4))))
+            indexStop_IC = len(list(data['IC'][0]))  #list(data['IC'][0]).index((min(data['IC'][0], key=lambda x: abs(x-t4))))
+            #indexStop_IC = list(data['IC'][0]).index((min(data['IC'][0], key=lambda x: abs(x-t4))))
+            indexStop_ne = len(list(merged['time'])) #list(merged['time']).index((min(merged['time'], key=lambda x: abs(x-t4))))
+            #indexStop_ne = list(merged['time']).index((min(merged['time'], key=lambda x: abs(x-t4))))
+
+            fig, ax = plt.subplots(2, 1, layout='constrained', figsize=(10, 12))
+            ax[0].plot(data['p'][0][indexStart_p:indexStop_p], data['p'][1][indexStart_p:indexStop_p], label='baratron', color=colors[color_i])
+            ax[1].plot(merged['ne'][indexStart_ne:indexStop_ne], merged['p'][indexStart_ne:indexStop_ne], 'x', label='baratron', color=colors[color_i])
+            color_i += 1
+            
+            for mb, calibration in zip(mb_NGM, calibrations):
+                if type(mb[0])!= bool:
+                    ax[0].plot(data['IC'][0][indexStart_IC:indexStop_IC], [10**(mb[0] * np.log10(x) + mb[1]) for x in IC[indexStart_IC:indexStop_IC]], label=f'NGM {calibration['program']}', color=colors[color_i])
+                    ax[1].plot(merged['ne'][indexStart_ne:indexStop_ne], [10**(mb[0] * np.log10(x) + mb[1]) for x in merged['IC'][indexStart_ne:indexStop_ne]], 'x', label=f'NGM {calibration['program']}', color=colors[color_i])
+                    color_i += 1
+
+            if 'pNGM' in keys:
+                ax[0].plot(data['pNGM'][0][indexStart_pNGM:indexStop_pNGM], data['pNGM'][1][indexStart_pNGM:indexStop_pNGM], label='NGM Georg', color=colors[color_i])
+                ax[1].plot(merged['ne'][indexStart_ne:indexStop_ne], merged['pNGM'][indexStart_ne:indexStop_ne], 'x', label='NGM Georg', color=colors[color_i])
+                color_i += 1
+
+            ax[0].set_xlabel("time [s]")
+            ax[1].set_xlabel("electron density [1/m$^2$]")
+            ax[0].set_ylabel("neutral gas pressure [mbar]")
+            ax[1].set_ylabel("neutral gas pressure [mbar]")
+            ax[0].grid(True)
+            ax[1].grid(True)
+            ax[0].legend()
+            ax[1].legend()
+
+            safe = "plots/calibrationAttempt/{dischargeID}_{manometer}_compareCalibrations.png".format(dischargeID=dischargeID, manometer=manometer)
+            fig.savefig(safe, bbox_inches='tight')
+            fig.show()
+            plt.close()
+
+            filter_calibrated = np.array([type(x[0])!= bool for x in mb_NGM])
+            calibrations_calibrated = np.array(calibrations)[filter_calibrated]
+            mb_calibrated = np.array(mb_NGM)[filter_calibrated]
+
+            plt.scatter(merged['time'][indexStart_ne:indexStop_ne], merged['ne'][indexStart_ne:indexStop_ne], c=[10**(mb_calibrated[0][0] * np.log10(x) + mb_calibrated[0][1]) for x in merged['IC'][indexStart_ne:indexStop_ne]], cmap='magma', label=f'NGM {calibrations_calibrated[0]['program']}')
+            plt.colorbar(label="neutral gas pressure [mbar]")
+            plt.xlabel("time [s]")
+            plt.ylabel("electron density [1/m$^2$]")
+            plt.grid(True)
+            plt.legend()
+            safe = "plots/calibrationAttempt/{dischargeID}_{manometer}_compareCalibrations_ne_t.png".format(dischargeID=dischargeID, manometer=manometer)
+            plt.savefig(safe, bbox_inches='tight')
+            plt.close()
+
+####################################################################################################################
+def compareManometerPressureWithBaratronOld(manometers, urls, dischargeIDs, calibrated, calibrations):
+    ''' read out the manometer data (ion/electron/heating current + heating voltage) and corresponding electron density and P_ECRH
+        works for reference discharges of OP2.2 and 2.3
+        averages the parameters for each of the three P_ECRH steps of the discharge (ne, P_ECRH, IC) or the whole discharge (EC, HC, HV)
+        results are saved in .csv file'''
+    overviewTable = pd.DataFrame({})
+    for manometer, url, mb_NGM in zip(manometers, urls, calibrated):
+        url['p'] = pBaratron['p']
+        for dischargeID in dischargeIDs:  
+            #NEW!
+            #tsstamp, testamp = w7xarchive.get_program_from_to(dischargeID)  
+            #url['pNGM'] = w7xarchive.versionize_url(url['pNGM'], tsstamp, testamp, use_last_version = True)
+
+            #data is dictionary with same keys as url, each data[key] is a tuple of two lists containing timestemps (index 0) and data (index 1)
+            data = w7xarchive.get_signal_for_program(url, dischargeID) 
+
+            #test for existance of all datastreams
+            keys = data.keys()
+            if 'p' in keys and 'pNGM' in keys and 'ne' in keys and 'ECRH' in keys and 'IC' in keys:
+                pass
+            else:
+                print('not all datastreams available in {discharge} for {manometer}'.format(discharge=dischargeID, manometer=manometer))
+                print(keys)
+                continue
+            IC = overflow_correction(np.array(data['IC'][1]))
+            
+            data_ne = pd.DataFrame({'ne': data['ne'][1], 'time': np.round(np.array(data['ne'][0]), 3)})
+            data_p = pd.DataFrame({'p': data['p'][1], 'time': np.round(np.array(data['p'][0]), 3)})
+            data_pNGM = pd.DataFrame({'pNGM': data['pNGM'][1], 'time': np.round(np.array(data['pNGM'][0]), 3)})
+            data_IC = pd.DataFrame({'IC': IC, 'time': np.round(np.array(data['IC'][0]), 3)})
+            merged = pd.merge(data_ne, data_p, on='time', how='outer')
+            merged = pd.merge(merged, data_pNGM, on='time', how='outer')
+            merged = pd.merge(merged, data_IC, on='time', how='outer')
+
+            #cut to real experimental time by finding ECRH start and stop value and matching data indices
+            #print((min(data['EC'][0], key=lambda x: abs(x-data['ECRH'][0][0]))), (min(data['EC'][0], key=lambda x: abs(x-data['ECRH'][0][-1]))), data['ECRH'][0][0], data['ECRH'][0][-1])
+            indexStart_p = list(data['p'][0]).index((min(data['p'][0], key=lambda x: abs(x-data['ECRH'][0][0]))))
+            indexStart_pNGM = list(data['pNGM'][0]).index((min(data['pNGM'][0], key=lambda x: abs(x-data['ECRH'][0][0]))))
+            indexStart_IC = list(data['IC'][0]).index((min(data['IC'][0], key=lambda x: abs(x-data['ECRH'][0][0]))))
+            indexStart_ne = list(merged['time']).index((min(merged['time'], key=lambda x: abs(x-data['ECRH'][0][0]))))
+            indexStop_p = list(data['p'][0]).index((min(data['p'][0], key=lambda x: abs(x-data['ECRH'][0][-1]))))
+            indexStop_pNGM = list(data['pNGM'][0]).index((min(data['pNGM'][0], key=lambda x: abs(x-data['ECRH'][0][-1]))))
+            indexStop_IC = list(data['IC'][0]).index((min(data['IC'][0], key=lambda x: abs(x-data['ECRH'][0][-1]))))
+            indexStop_ne = list(merged['time']).index((min(merged['time'], key=lambda x: abs(x-data['ECRH'][0][-1]))))
+
+            fig, ax = plt.subplots(2, 1, layout='constrained', figsize=(10, 12))
+            ax[0].plot(data['p'][0][indexStart_p:indexStop_p], data['p'][1][indexStart_p:indexStop_p], label='baratron')
+            ax[1].plot(merged['ne'][indexStart_ne:indexStop_ne], merged['p'][indexStart_ne:indexStop_ne], 'x', label='baratron')
+            ax[0].plot(data['pNGM'][0][indexStart_pNGM:indexStop_pNGM], data['pNGM'][1][indexStart_pNGM:indexStop_pNGM], label='NGM Georg')
+            ax[1].plot(merged['ne'][indexStart_ne:indexStop_ne], merged['pNGM'][indexStart_ne:indexStop_ne], 'x', label='NGM Georg')
+            
+            for mb, calibration in zip(mb_NGM, calibrations):
+                if type(mb[0])!= bool:
+                    ax[0].plot(data['IC'][0][indexStart_IC:indexStop_IC], [10**(mb[0] * np.log10(x) + mb[1]) for x in IC[indexStart_IC:indexStop_IC]], label=f'NGM {calibration['program']}')
+                    ax[1].plot(merged['ne'][indexStart_ne:indexStop_ne], [10**(mb[0] * np.log10(x) + mb[1]) for x in merged['IC'][indexStart_ne:indexStop_ne]], 'x', label=f'NGM {calibration['program']}')
+
+            ax[0].set_xlabel("time [s]")
+            ax[1].set_xlabel("electron density [1/m^2]")
+            ax[0].set_ylabel("neutral gas pressure [mbar]")
+            ax[1].set_ylabel("neutral gas pressure [mbar]")
+            ax[0].grid(True)
+            ax[1].grid(True)
+            ax[0].legend()
+            ax[1].legend()
+
+            safe = "plots/calibrationAttempt/{dischargeID}_{manometer}_compareCalibrations.png".format(dischargeID=dischargeID, manometer=manometer)
+            fig.savefig(safe, bbox_inches='tight')
+            fig.show()
+            plt.close()
 
 ####################################################################################################################
 #INPUT PARAMETERS
 urls = [urlAEA21, urlAEE11, urlAEE30, urlAEE41, urlAEE50, urlAEH11, urlAEH21, urlAEH30, urlAEH31, urlAEH50, urlAEH51, urlAEI30, urlAEI50, urlAEI51, urlAEL10, urlAEP30, urlAEP50, urlAEP51]
-urls = [urlAEH50, urlAEH51, urlAEI50, urlAEP51, urlAEP30, urlAEL10]
+urls = [urlAEH51]#, urlAEH51, urlAEI50, urlAEP51, urlAEP30, urlAEL10]
+#urls = [urlAEP30]
 manometers = ['AEA21', 'AEE11', 'AEE30', 'AEE41', 'AEE50', 'AEH11', 'AEH21' ,'AEH30', 'AEH31', 'AEH50', 'AEH51', 'AEI30', 'AEI50', 'AEI51', 'AEL10', 'AEP30', 'AEP50', 'AEP51']
-manometers = ['AEH50', 'AEH51', 'AEI50', 'AEP51', 'AEP30', 'AEL10']
+manometers = ['AEH51']#, 'AEH51', 'AEI50', 'AEP51', 'AEP30', 'AEL10']
+#manometers = ['AEP30']
+
+nan_thresh = 8.7499e-6
+#approximate saturation current IC for each manometer for program 20240926.22 and 20250605.43
+nan_threshs = [[4e-6, nan_thresh], [7e-7, nan_thresh], [nan_thresh, nan_thresh], [7e-7, 7e-7], [nan_thresh, nan_thresh], [nan_thresh, nan_thresh]]
 
 #refernece discharges
 dischargeIDs = [#'20180809.25', '20180809.27', '20180809.38', '20180814.13',  '20180828.19', '20180828.21', '20180904.22', '20180904.23', '20180911.24', '20180912.10', '20181018.3', '20230126.4', '20241212.7', '20250409.8', '20250410.5',
@@ -794,12 +1052,67 @@ for calibrationNumber in range(len(calibrations)):
 
 #plotGasPressureFlowAndValveVoltageDay()
 #plotPressureStepsOfCalibrationProgram()
-#investigateSensitivityOfManometer(manometers[:], urls[:])
-#plotIonCurrentFromPressureCalibration(manometers[:], urls[:])
+#investigateSensitivityOfManometer(manometers[:], urls[:], calibrations)
+#plotIonCurrentFromPressureCalibration(manometers[:], urls[:], calibrations)
         
 
 #indices of steepest slope in pressure data
+step_indices20240910_30 = [457, 509, 555, 602, 649, 697, 744, 794, 847, 902, 965]
 step_indices20240926_22 = [492, 577, 623, 672, 720, 767, 813, 860, 909, 960, 1010, 1067, 1134]
+step_indices20250220_25 = [430, 470, 525, 569, 612, 656, 702, 748, 798, 852]
+step_indices20250604_01 = [412, 458, 497, 543, 585, 630, 673, 716, 763, 819, 873]
 step_indices20250605_43 = [371, 409, 449, 494, 534, 579, 620, 664, 709, 757, 804, 861]
-for calibration, step_indices in zip([calibrations[3], calibrations[-1]], [step_indices20240926_22, step_indices20250605_43]):
-    calibrateManometer(manometers[:], urls[:], calibration, step_indices)
+
+programs = [calibrations[1], calibrations[3], calibrations[6], calibrations[8], calibrations[-1]]
+program_indices = [step_indices20240910_30, step_indices20240926_22, step_indices20250220_25, step_indices20250604_01, step_indices20250605_43]
+m_list, b_list = [], []
+datapoints = []
+
+'''
+for calibration, step_indices in zip(programs, program_indices):
+    params = calibrateManometer(manometers[:], urls[:], nan_threshs[:], calibration, step_indices)
+    m_list.append(params[0])
+    b_list.append(params[1])
+    datapoints.append(params[2])
+
+mb_dataFrame = pd.DataFrame({'program': list(x['program'] for x in programs)})
+m_list_save = np.array(m_list).transpose()
+b_list_save = np.array(b_list).transpose()
+#datapoints_t = np.array(datapoints).transpose()
+
+i = 0
+for m_NGM, b_NGM, manometer in zip(m_list_save, b_list_save, manometers):
+    mb_dataFrame[f'slope {manometer}'] = m_NGM
+    mb_dataFrame[f'y-intercept {manometer}'] = b_NGM
+    j = 0
+    for m, b, color in zip(m_NGM, b_NGM, ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple']):
+        plt.plot(datapoints[j][i][0], datapoints[j][i][1], 'x', color=color, label=f'{datapoints[j][i][2]} {datapoints[j][i][3]['program']}')
+        plt.plot(datapoints[j][i][0], [10**(m * np.log10(x) + b) for x in datapoints[j][i][0]], color=color)#, label=f'{datapoints[j][i][2]}{datapoints[j][i][3]['program']} polyfit')
+        j += 1
+    plt.xlabel('Ion current IC in A')
+    plt.ylabel('Baratron pressure p in mbar')
+    plt.legend()
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.savefig('plots/calibrationAttempt/PressureFromIC_{manometer}.png'.format(manometer=manometer))
+    plt.close()        
+    i += 1
+
+mb_dataFrame.to_csv('plots/calibrationAttempt/mbTable.csv', sep=';')
+
+'''
+mb = pd.read_csv('plots/calibrationAttempt/mbTable.csv', sep=';')
+calibrated = []
+for i, manometer in enumerate(manometers):
+    calibrated_NGM = []
+    for calibration in calibrations:
+        if calibration in programs:
+            j = list(mb['program']).index(float(calibration['program']))
+            calibrated_NGM.append([mb[f'slope {manometer}'][j], mb[f'y-intercept {manometer}'][j]])
+        else:
+            calibrated_NGM.append([False, False])
+    calibrated.append(calibrated_NGM)
+                
+#investigateSensitivityOfManometer(manometers, urls, calibrations, calibrated)
+
+compareManometerPressureWithBaratron(manometers, urls, ['20241127.10', '20250514.10'], calibrated, calibrations)
